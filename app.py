@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QFont
 import sys
 
+## KOMENTARZ
+
 class MyWindow(QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
