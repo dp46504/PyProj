@@ -17,7 +17,7 @@ class MyWindow(QMainWindow):
         self.setWindowTitle("Code Racer!")
         self.setStyleSheet("background-color: #0e2a45")
         self.initUI()
-
+##KOMENTARZ MUJ
     def initUI(self):
         
         # Logo
