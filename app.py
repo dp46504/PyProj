@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QFont
 import sys
+import functions as fn
 
 class MyWindow(QMainWindow):
     def __init__(self):
@@ -42,7 +43,7 @@ class MyWindow(QMainWindow):
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid red; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
 
-        self.userInput.textEdited.connect(self.onTextChange)
+        self.userInput.textEdited.connect(lambda: fn.funkcja(self.userInput.text()))
 
     def onTextChange(self):
         self.labelCode.setText(self.userInput.text())
