@@ -1,5 +1,5 @@
 """
-getRandomText
+getRandomExample
 
 zwraca tekst losowo wybranego przykladu (w string) o wyznaczonym jezyku i poziomie trudnosci.
 
@@ -10,7 +10,7 @@ wejscia:
 wyjscia:
     tekstowa reprezantacja jednego przykladu
 """
-def getRandomText(language, difficulty):
+def getRandomExample(language, difficulty):
     import xml.etree.ElementTree as ET
     import random
     path="texts\\"+language+".xml"
@@ -32,8 +32,13 @@ def getRandomText(language, difficulty):
 
     numOfChildren=len(root[lang][diff])-1
     rndChildIndex=random.randint(0, numOfChildren)
+    tmp=root[lang][diff][rndChildIndex].text
+    result=""
     
-    return root[lang][diff][rndChildIndex].text
+    for i in range(1,len(tmp)-1):
+        result+=tmp[i]
+
+    return result 
 
 
 
@@ -45,11 +50,22 @@ zwraca true jesli tekst pokrywa sie z przykladem
 wejscia:
     properText - tekst przykladu (zwracany przez funkcje getRandomText)
     userInput - zawartosc pola input
+    userInputField - userInput z glownego okna aby moc sie z nim laczyc
 
 wyjscia:
     true kiedy tekst sie pokrywa.
     False w przeciwnym przypdaku.
+    Zmienia border color inputa
 """
-# def checkSpelling(properText, userInput, ):
-
-    
+def checkSpelling(properText, userInputField):
+    text=userInputField.text()
+    if len(text)<=len(properText):
+        for i in range(0, len(text)):
+            if properText[i]!=text[i]:
+                userInputField.setStyleSheet("background-color: #ff0000; border: 1px solid red; border-radius: 5px;")
+                return 0
+            else:
+                userInputField.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
+        print(len(text), len(properText))
+        if len(text)==len(properText):
+            print("DONE DONE DONE")
