@@ -22,8 +22,14 @@ def easy3(x):
 
         <difficulty level="medium">
 <text index="0">
-def medium(x):
+hello
+</text>
+<text index="0">
+def medium2(x):
     print("Hello ", x)
+</text>
+<text index="0">
+testMedium
 </text>
         </difficulty>
 
