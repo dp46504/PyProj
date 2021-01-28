@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QFont
 import sys
-import functions as fn
+from Functions import getRandomText
 
 class Application():
     def __init__(self):
@@ -42,7 +42,8 @@ class Application():
 
         # Code
         self.labelCode = QLabel()
-        self.labelCode.setText("def myFunction(arg):\n\tpass")
+
+        self.labelCode.setText(self.text)
         self.labelCode.setGeometry(QRect(20, 80, 600, 300))
         self.labelCode.setStyleSheet("background-color: #0a102e; color: #ffffff; padding: 10px; border-radius: 5px")
         self.labelCode.setFont(QFont('Arial', 18))
@@ -53,8 +54,6 @@ class Application():
         self.userInput.setGeometry(QRect(20, 400, 600, 40))
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid red; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
-
-        self.userInput.textEdited.connect(lambda: fn.funkcja(self.userInput.text()))
 
         self.gameLayout.addWidget(self.labelLogo)
         self.gameLayout.addWidget(self.labelCode)

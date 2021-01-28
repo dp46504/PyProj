@@ -1,0 +1,45 @@
+    <root>
+    <language name="python">
+
+        <difficulty level="easy">
+
+<text index="0">
+def easy1(x):
+    print("Hello ", x)
+</text>
+
+<text index="1">
+def easy2(x):
+    print("Hello ", x)
+</text>
+
+<text index="2">
+def easy3(x):
+    print("Hello ", x)
+</text>
+
+        </difficulty>
+
+        <difficulty level="medium">
+<text index="0">
+def medium(x):
+    print("Hello ", x)
+</text>
+        </difficulty>
+
+        <difficulty level="hard">
+        </difficulty>
+
+    </language>
+
+    <language>
+        <difficulty level="easy">
+        </difficulty>
+
+        <difficulty level="medium">
+        </difficulty>
+
+        <difficulty level="hard">
+        </difficulty>
+    </language>
+</root>
