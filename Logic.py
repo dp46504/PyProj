@@ -40,15 +40,29 @@ def checkSpelling(properText, userInputField):
     checkSpelling check text of userInput with provided example
         :param properText: text from example
         :param difficulty: userInputField from main window
-        :return: false when it's not norrect 
+        :return: -1 when it's not norrect, 1 when round ended
     """
+    from PyQt5.QtGui import QTextCursor
+
     text=userInputField.toPlainText()
-    if len(text)<=len(properText):
-        for i in range(0, len(text)):
+    if len(text)<=len(properText) and len(text)>0:
+
+        if text[-1]=="\t":
+            tmptext=""
+            for i in range(0,len(text)-1):
+                tmptext+=text[i]
+            tmptext+="    "
+            userInputField.setPlainText(tmptext)
+
+            cursor=userInputField.textCursor()
+            cursor.setPosition(len(tmptext))
+            userInputField.setTextCursor(cursor)
+
+        for i in range(0, len(userInputField.toPlainText())):
             if properText[i]!=text[i]:
                 userInputField.setStyleSheet("background-color: #ff0000; border: 1px solid red; border-radius: 5px;")
-                return 0
+                return -1
             else:
                 userInputField.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
         if len(text)==len(properText):
-            print("DONE DONE DONE")
+            return 1

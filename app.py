@@ -7,7 +7,6 @@ from Logic import getRandomExample, checkSpelling
 class Application():
     def __init__(self):
         super().__init__()
-
         self.app = QApplication([])
         self.window = QStackedWidget()
 
@@ -131,7 +130,7 @@ class Application():
         self.labelCode.setText(self.userInput.text())
 
     def startGame(self, text):
-
+        self.round=1
         language = self.select.currentText()
         language = language.lower()
         difficulty = text.lower()
