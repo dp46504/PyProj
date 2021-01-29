@@ -48,7 +48,7 @@ class Application():
         # Code
         self.labelCode = QLabel()
 
-        self.text= getRandomExample()
+        self.text= getRandomExample("python", "medium")
         self.labelCode.setText(self.text)
 
         self.labelCode.setFixedSize(640, 200)

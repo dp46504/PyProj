@@ -1,10 +1,10 @@
 def getRandomExample(language, difficulty):
-"""
-Function return random example from xml file
-    :param language: Language in string (small letters)
-    :param difficulty: Difficulty level (easy, medium, hard)
-    :return: Random example
-"""
+    """
+    Function return random example from xml file
+        :param language: Language in string (small letters)
+        :param difficulty: Difficulty level (easy, medium, hard)
+        :return: Random example
+    """
     import xml.etree.ElementTree as ET
     import random
     path="texts\\"+language+".xml"
@@ -34,13 +34,14 @@ Function return random example from xml file
 
     return result 
 
-"""
-checkSpelling check text of userInput with provided example
-    :param properText: text from example
-    :param difficulty: userInputField from main window
-    :return: false when it's not norrect 
-"""
+
 def checkSpelling(properText, userInputField):
+    """
+    checkSpelling check text of userInput with provided example
+        :param properText: text from example
+        :param difficulty: userInputField from main window
+        :return: false when it's not norrect 
+    """
     text=userInputField.toPlainText()
     if len(text)<=len(properText):
         for i in range(0, len(text)):
@@ -49,6 +50,5 @@ def checkSpelling(properText, userInputField):
                 return 0
             else:
                 userInputField.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
-        print(len(text), len(properText))
         if len(text)==len(properText):
             print("DONE DONE DONE")
