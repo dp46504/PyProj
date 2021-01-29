@@ -34,6 +34,10 @@ testMedium
         </difficulty>
 
         <difficulty level="hard">
+<text index="0">
+def hard(x):
+    print("Hello ", x)
+</text>
         </difficulty>
 
     </language>
