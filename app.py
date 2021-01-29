@@ -53,12 +53,10 @@ class Application():
 
         # Input
         self.userInput = QPlainTextEdit()
-        self.userInput.textChanged.connect(lambda: checkSpelling(self.text, self.userInput))
-        
         self.userInput.setFixedSize(640, 250)
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
-        #self.userInput.textChanged.connect(lambda: checkSpelling(self.text, self.userInput))
+        self.userInput.textChanged.connect(self.nextRound)
 
         self.gameLayout.addWidget(self.labelLogo)
         self.gameLayout.addWidget(self.labelCode)
@@ -126,16 +124,30 @@ class Application():
         self.menu.setLayout(self.menuLayout)
         self.window.addWidget(self.menu)
 
-    def onTextChange(self):
-        self.labelCode.setText(self.userInput.text())
+    def startGame(self, txt):
+        self.rounds = 3
+        self.currentRound = 1
 
-    def startGame(self, text):
-        self.round=1
-        language = self.select.currentText()
-        language = language.lower()
-        difficulty = text.lower()
-        self.text = getRandomExample(language, difficulty)
-        self.labelCode.setText(self.text)
+        self.language = self.select.currentText()
+        self.language = self.language.lower()
+        self.difficulty = txt.lower()
+
+        self.code = getRandomExample(self.language, self.difficulty)
+        self.labelCode.setText(self.code)
         self.window.setCurrentWidget(self.game)
+
+    def nextRound(self):
+        res = checkSpelling(self, self.code, self.userInput)
+
+        if res == 1:
+            
+            if self.currentRound == self.rounds:
+                print("Koniec gry")
+            else:
+                self.currentRound += 1
+                self.code = getRandomExample(self.language, self.difficulty)
+                self.labelCode.setText(self.code)
+
+            
 
 app = Application()

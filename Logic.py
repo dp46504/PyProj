@@ -35,7 +35,7 @@ def getRandomExample(language, difficulty):
     return result 
 
 
-def checkSpelling(properText, userInputField):
+def checkSpelling(window, properText, userInputField):
     """
     checkSpelling check text of userInput with provided example
         :param properText: text from example
@@ -65,4 +65,5 @@ def checkSpelling(properText, userInputField):
             else:
                 userInputField.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
         if len(text)==len(properText):
+            userInputField.setPlainText("")
             return 1
