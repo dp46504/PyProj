@@ -48,7 +48,7 @@ class Application():
         # Code
         self.labelCode = QLabel()
 
-        self.text=getRandomExample("python", "medium")
+        self.text= getRandomExample()
         self.labelCode.setText(self.text)
 
         self.labelCode.setFixedSize(640, 200)
@@ -58,8 +58,8 @@ class Application():
 
         # Input
         self.userInput = QPlainTextEdit()
-        self.userInput.setPlainText("elo\nelo")
-        print(self.userInput.toPlainText())
+        self.userInput.setPlainText("")
+        self.userInput.textChanged.connect(lambda: checkSpelling(self.text, self.userInput))
         
         self.userInput.setMaximumHeight(300)
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")

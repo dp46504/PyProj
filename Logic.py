@@ -1,16 +1,10 @@
-"""
-getRandomExample
-
-zwraca tekst losowo wybranego przykladu (w string) o wyznaczonym jezyku i poziomie trudnosci.
-
-wejscia:
-    language - nazwa jezyka w stringu np. python (wszystko z malych)
-    difficulty - poziom trudnosci w stringu (easy, medium, hard)
-
-wyjscia:
-    tekstowa reprezantacja jednego przykladu
-"""
 def getRandomExample(language, difficulty):
+"""
+Function return random example from xml file
+    :param language: Language in string (small letters)
+    :param difficulty: Difficulty level (easy, medium, hard)
+    :return: Random example
+"""
     import xml.etree.ElementTree as ET
     import random
     path="texts\\"+language+".xml"
@@ -40,25 +34,14 @@ def getRandomExample(language, difficulty):
 
     return result 
 
-
-
 """
-checkSpelling
-
-zwraca true jesli tekst pokrywa sie z przykladem
-
-wejscia:
-    properText - tekst przykladu (zwracany przez funkcje getRandomText)
-    userInput - zawartosc pola input
-    userInputField - userInput z glownego okna aby moc sie z nim laczyc
-
-wyjscia:
-    true kiedy tekst sie pokrywa.
-    False w przeciwnym przypdaku.
-    Zmienia border color inputa
+checkSpelling check text of userInput with provided example
+    :param properText: text from example
+    :param difficulty: userInputField from main window
+    :return: false when it's not norrect 
 """
 def checkSpelling(properText, userInputField):
-    text=userInputField.text()
+    text=userInputField.toPlainText()
     if len(text)<=len(properText):
         for i in range(0, len(text)):
             if properText[i]!=text[i]:
