@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QLabel, QLineEdit, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QLabel, QLineEdit, QVBoxLayout, QPushButton, QPlainTextEdit
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QFont
 import sys
@@ -29,6 +29,12 @@ class Application():
         self.app.exec_()
 
     def initGameUI(self):
+        """
+        initGameUI inicjalizuje interfejs gry
+
+        :param: brak
+        :return: brak
+        """
         self.game = QWidget()
         self.gameLayout = QVBoxLayout()
 
@@ -45,17 +51,20 @@ class Application():
         self.text=getRandomExample("python", "medium")
         self.labelCode.setText(self.text)
 
-        self.labelCode.setGeometry(QRect(20, 80, 600, 300))
+        self.labelCode.setFixedSize(640, 200)
         self.labelCode.setStyleSheet("background-color: #0a102e; color: #ffffff; padding: 10px; border-radius: 5px")
         self.labelCode.setFont(QFont('Arial', 18))
         self.labelCode.setAlignment(Qt.AlignLeft)
 
         # Input
-        self.userInput = QLineEdit()
-        self.userInput.setGeometry(QRect(20, 400, 600, 40))
+        self.userInput = QPlainTextEdit()
+        self.userInput.setPlainText("elo\nelo")
+        print(self.userInput.toPlainText())
+        
+        self.userInput.setMaximumHeight(300)
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
-        self.userInput.textChanged.connect(lambda: checkSpelling(self.text, self.userInput))
+        #self.userInput.textChanged.connect(lambda: checkSpelling(self.text, self.userInput))
 
         self.gameLayout.addWidget(self.labelLogo)
         self.gameLayout.addWidget(self.labelCode)
@@ -65,6 +74,12 @@ class Application():
         self.window.addWidget(self.game)
 
     def initMenuUI(self):
+        """
+        initMenuUI inicjalizuje interfejs menu
+
+        :param: brak
+        :return: brak
+        """
         self.menu = QWidget()
         self.menu.setStyleSheet("QPushButton { background-color: #dbce18; color: #0e2a45; border: none; border-radius: 5px; width: 200px; height: 50px; }")
 
