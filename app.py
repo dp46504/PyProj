@@ -2,7 +2,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, 
 from PyQt5.QtCore import Qt, QRect
 from PyQt5.QtGui import QFont
 import sys
+import numpy as np
 from Logic import getRandomExample, checkSpelling
+
 
 class Application():
     def __init__(self):
@@ -127,6 +129,7 @@ class Application():
     def startGame(self, txt):
         self.rounds = 3
         self.currentRound = 1
+        self.errors = np.array([0, 0, 0])
 
         self.language = self.select.currentText()
         self.language = self.language.lower()
@@ -138,16 +141,16 @@ class Application():
 
     def nextRound(self):
         res = checkSpelling(self, self.code, self.userInput)
-
+        
         if res == 1:
-            
             if self.currentRound == self.rounds:
                 print("Koniec gry")
+                print(self.errors)
             else:
                 self.currentRound += 1
                 self.code = getRandomExample(self.language, self.difficulty)
                 self.labelCode.setText(self.code)
-
-            
-
+        elif res==-1:
+            self.errors[self.currentRound-1]+=1
+      
 app = Application()
