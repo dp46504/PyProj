@@ -5,6 +5,7 @@ import sys
 import time
 import numpy as np
 from Logic import getRandomExample, checkSpelling
+import matplotlib.pyplot as plt
 
 
 class Application():
@@ -31,10 +32,13 @@ class Application():
         self.window.setGeometry(self.winXPos, self.winYPos, self.winWidth, self.winHeight)
         self.window.setStyleSheet("background-color: #0e2a45")
         
+        self.errors = np.array([0, 0, 0])
+        self.examplesLength = np.array([0, 0, 0])
+        self.timeForExample = np.array([0, 0, 0])
+
         self.initGameUI()
         self.initMenuUI()
-        self.initSummaryUI()
-        self.window.setCurrentWidget(self.summary)
+        self.window.setCurrentWidget(self.menu)
 
         self.window.show()
         self.app.exec_()
@@ -176,6 +180,21 @@ class Application():
         self.summary.setLayout(self.summaryLayout)
         self.window.addWidget(self.summary)
 
+        # GENEROWANIE WYKRESU BLEDOW I CZASU \/
+        # MOZNA DODAC ZAPISANIE DO PLIKU BO JAKIES MUSI BYC Xd
+
+        # plt.subplot(1,2,1)
+        # x=np.array(["Errors 1", "Errors 2", "Errors 3"])
+        # y=np.array([self.errors[0], self.errors[1], self.errors[2]])
+        # plt.bar(x, y, color='blue')
+
+        # plt.subplot(1,2,2)
+        # x=np.array(["Time 1", "Time 2", "Time 3"])
+        # y=np.array([self.timeForExample[0], self.timeForExample[1], self.timeForExample[2]])
+        # plt.bar(x, y, color='red')
+        # plt.title("Results")
+        # plt.show()
+
 
     def startGame(self, txt):
         """
@@ -186,14 +205,17 @@ class Application():
         """
         self.rounds = 3
         self.currentRound = 1
-        self.errors = np.array([0, 0, 0])
+        
+        self.t1=time.perf_counter()
+        self.t2=time.perf_counter()
 
         self.language = self.select.currentText()
         self.language = self.language.lower()
         self.difficulty = txt.lower()
 
-        self.code = getRandomExample(self.language, self.difficulty)
         self.roundLabel.setText("Runda" + str(self.currentRound)) 
+        self.code = getRandomExample(self.language, self.difficulty, self)
+        self.t1 = time.perf_counter()
         self.labelCode.setText(self.code)
         self.window.setCurrentWidget(self.game)
 
@@ -208,14 +230,21 @@ class Application():
         
         if res == 1:
             if self.currentRound == self.rounds:
-                print("Koniec gry")
-                print(self.errors)
+                self.t2 = time.perf_counter()
+                self.timeForExample[self.currentRound-1] = self.t2-self.t1
+
+                self.initSummaryUI()
                 self.window.setCurrentWidget(self.summary)
             else:
                 self.currentRound += 1
-                self.code = getRandomExample(self.language, self.difficulty)
+
+                self.t2 = time.perf_counter()
+                self.timeForExample[self.currentRound-2] = self.t2-self.t1
+
+                self.code = getRandomExample(self.language, self.difficulty, self)
                 self.roundLabel.setText("Runda " + str(self.currentRound))
                 self.labelCode.setText(self.code)
+                self.t1 = time.perf_counter()
         elif res==-1:
             self.errors[self.currentRound-1]+=1
       

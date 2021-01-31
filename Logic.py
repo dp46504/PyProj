@@ -1,4 +1,4 @@
-def getRandomExample(language, difficulty):
+def getRandomExample(language, difficulty, window):
     """
     Function return random example from xml file
         :param language: Language in string (small letters)
@@ -31,7 +31,16 @@ def getRandomExample(language, difficulty):
     
     for i in range(1,len(tmp)-1):
         result+=tmp[i]
+    # End of getting random example
+    # Start of getting typeable characters number of this example
+    numberOfTypeableCharacters=0
+    for i in range(0,len(result)):
+        if result[i]!=" " or result[i]!="\t":
+            numberOfTypeableCharacters+=1
+    # Setting numberOfTypeableCharacters in array in amin window
 
+    window.examplesLength[window.currentRound-1]=numberOfTypeableCharacters
+    
     return result 
 
 
@@ -57,6 +66,7 @@ def checkSpelling(window, properText, userInputField):
             cursor=userInputField.textCursor()
             cursor.setPosition(len(tmptext))
             userInputField.setTextCursor(cursor)
+            return 0
 
         for i in range(0, len(userInputField.toPlainText())):
             if properText[i]!=text[i]:
@@ -67,3 +77,5 @@ def checkSpelling(window, properText, userInputField):
         if len(text)==len(properText):
             userInputField.setPlainText("")
             return 1
+
+
