@@ -40,6 +40,9 @@ class Application():
         self.initMenuUI()
         self.window.setCurrentWidget(self.menu)
 
+        self.gameEnded = False
+        self.secs = 0
+
         self.window.show()
         self.app.exec_()
 
@@ -60,7 +63,7 @@ class Application():
         self.roundLabel.setStyleSheet("color: #dbce18;") # dodanie styli css
         self.roundLabel.setFont(QFont('Arial', 20)) # ustawienie czcionki
 
-        self.gameTimer = QLabel("00:00:00")
+        self.gameTimer = QLabel("00:00")
         self.gameTimer.setStyleSheet("color: #dbce18;")
         self.gameTimer.setFont(QFont('Arial', 20))
 
@@ -215,9 +218,10 @@ class Application():
 
         self.roundLabel.setText("Runda" + str(self.currentRound)) 
         self.code = getRandomExample(self.language, self.difficulty, self)
-        self.t1 = time.perf_counter()
         self.labelCode.setText(self.code)
         self.window.setCurrentWidget(self.game)
+        self.started = False
+        self.totalTimer = False
 
     def nextRound(self):
         """
@@ -226,6 +230,14 @@ class Application():
         :param: None
         :return: None
         """
+        if not self.started:
+            self.t1 = time.perf_counter()
+            self.started = True
+
+        if not self.totalTimer:
+            self.setTimer()
+            self.totalTimer = True
+
         res = checkSpelling(self, self.code, self.userInput)
         
         if res == 1:
@@ -233,6 +245,7 @@ class Application():
                 self.t2 = time.perf_counter()
                 self.timeForExample[self.currentRound-1] = self.t2-self.t1
 
+                self.gameEnded = True
                 self.initSummaryUI()
                 self.window.setCurrentWidget(self.summary)
             else:
@@ -244,8 +257,23 @@ class Application():
                 self.code = getRandomExample(self.language, self.difficulty, self)
                 self.roundLabel.setText("Runda " + str(self.currentRound))
                 self.labelCode.setText(self.code)
-                self.t1 = time.perf_counter()
+                self.started = False
         elif res==-1:
             self.errors[self.currentRound-1]+=1
+
+    def setTimer(self):
+        
+        mins = int(np.floor(self.secs / 60))
+        secs = self.secs % 60
+        tmp = ""
+        if secs < 10:
+            tmp += "0"
+
+        tmp += str(secs)
+        self.gameTimer.setText("0" + str(mins) + ":" + tmp)
+        self.secs += 1
+
+        if not self.gameEnded:
+            QTimer.singleShot(1000, self.setTimer)
       
 app = Application()
