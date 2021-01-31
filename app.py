@@ -5,6 +5,7 @@ import sys
 import numpy as np
 from Logic import getRandomExample, checkSpelling, getChart
 import time
+import matplotlib.pyplot as plt
 
 
 class Application():

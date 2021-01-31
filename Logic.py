@@ -78,3 +78,4 @@ def checkSpelling(window, properText, userInputField):
             userInputField.setPlainText("")
             return 1
 
+
