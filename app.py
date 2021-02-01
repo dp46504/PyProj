@@ -1,11 +1,13 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QPushButton, QPlainTextEdit, QComboBox
 from PyQt5.QtCore import Qt, QRect, QTimer
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtChart import QBarSet, QBarSeries, QChart, QBarCategoryAxis, QValueAxis, QChartView
 import sys
 import time
 import numpy as np
-from Logic import getRandomExample, checkSpelling
 import matplotlib.pyplot as plt
+from pyqtgraph import BarGraphItem, plot
+from Logic import getRandomExample, checkSpelling
 
 
 class Application():
@@ -21,12 +23,10 @@ class Application():
         screenWidth = size.width()
         screenHeight = size.height()
 
-        print(screenWidth * 0.33)
-        print(screenHeight * 0.42)
-        self.winWidth = 640
-        self.winHeight = 480
-        self.winXPos = 300
-        self.winYPos = 400
+        self.winWidth = int((screenWidth / 10) * 5)
+        self.winHeight = int((screenHeight / 10) * 6)
+        self.winXPos = int(screenWidth / 2 - (self.winWidth / 2))
+        self.winYPos = int(screenHeight / 2 - (self.winHeight / 2))
 
         self.window.setWindowTitle(self.title)
         self.window.setGeometry(self.winXPos, self.winYPos, self.winWidth, self.winHeight)
@@ -60,10 +60,12 @@ class Application():
         self.gameLabels = QHBoxLayout()
 
         self.roundLabel = QLabel("Code Racer") # utworzenie widgetu label
+        self.roundLabel.setFixedHeight(int(self.winHeight / 10))
         self.roundLabel.setStyleSheet("color: #dbce18;") # dodanie styli css
         self.roundLabel.setFont(QFont('Arial', 20)) # ustawienie czcionki
 
         self.gameTimer = QLabel("00:00")
+        self.gameTimer.setFixedHeight(int(self.winHeight / 10))
         self.gameTimer.setStyleSheet("color: #dbce18;")
         self.gameTimer.setFont(QFont('Arial', 20))
 
@@ -74,14 +76,14 @@ class Application():
 
         # Code
         self.labelCode = QLabel()
-        self.labelCode.setFixedSize(640, 250)
+        self.labelCode.setFixedHeight(int(self.winHeight / 10 * 4.5))
         self.labelCode.setStyleSheet("background-color: #0a102e; color: #ffffff; padding: 10px; border-radius: 5px")
         self.labelCode.setFont(QFont('Arial', 18))
         self.labelCode.setAlignment(Qt.AlignLeft)
 
         # Input
         self.userInput = QPlainTextEdit()
-        self.userInput.setFixedSize(640, 250)
+        self.userInput.setFixedHeight(int(self.winHeight / 10 * 4.5))
         self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
         self.userInput.textChanged.connect(self.nextRound)
@@ -170,33 +172,132 @@ class Application():
         """
 
         self.summary = QWidget()
+        self.summary.setStyleSheet("QPushButton { background-color: #596ed9; color: #0e2a45; border: none; border-radius: 5px; width: 200px; height: 50px; }")
         self.summaryLayout = QVBoxLayout()
 
-        self.summaryLabel = QLabel("Podsumowanie")
-        self.summaryLabel.setStyleSheet("color: #dbce18;")
-        self.summaryLabel.setFont(QFont('Arial', 20))
-        self.summaryLabel.setAlignment(Qt.AlignCenter)
+        self.summaryLabel = QHBoxLayout()
 
-        self.summaryLayout.addWidget(self.summaryLabel)
-        self.summaryLayout.setAlignment(Qt.AlignTop)
+        mins = str(int(np.floor(self.secs / 60)))
+        secs = str(int(self.secs % 60))
+        if int(mins) < 10:
+            mins = "0" + mins
 
+        if int(secs) < 10:
+            secs = "0" + secs
+
+        totalTime = "Total time: " + mins + ":" + secs
+
+        self.totalTimeLabel = QLabel(totalTime)
+        self.totalTimeLabel.setMaximumHeight(int(self.winHeight / 10))
+        self.totalTimeLabel.setStyleSheet("color: #dbce18;")
+        self.totalTimeLabel.setFont(QFont('Arial', 20))
+        self.totalTimeLabel.setAlignment(Qt.AlignCenter)
+
+        self.summaryLabel.addWidget(self.totalTimeLabel)
+        self.summaryLabel.setAlignment(self.totalTimeLabel, Qt.AlignLeft)
+
+        totalMistakes = "Total mistakes: " + str(np.sum(self.errors))
+        self.totalMistakesLabel = QLabel(totalMistakes)
+        self.totalMistakesLabel.setMaximumHeight(int(self.winHeight / 10))
+        self.totalMistakesLabel.setStyleSheet("color: #dbce18;")
+        self.totalMistakesLabel.setFont(QFont('Arial', 20))
+        self.totalMistakesLabel.setAlignment(Qt.AlignCenter)
+
+        self.summaryLabel.addWidget(self.totalMistakesLabel)
+        self.summaryLabel.setAlignment(self.totalMistakesLabel, Qt.AlignRight)
+        self.summaryLayout.addLayout(self.summaryLabel)
+
+        times = QBarSet("Time")
+        times.setColor(QColor(0, 0, 255, 127))
+        times.append(self.timeForExample[0])
+        times.append(self.timeForExample[1])
+        times.append(self.timeForExample[2])
+
+        timeSeries = QBarSeries()
+        timeSeries.append(times)
+
+        timeChart = QChart()
+        timeChart.addSeries(timeSeries)
+        timeChart.setTitle("Round times chart")
+
+        categories = ["round 1", "round 2", "round 3"]
+        timesAxisX = QBarCategoryAxis()
+
+        timesAxisX.append(categories)
+        timeChart.addAxis(timesAxisX, Qt.AlignBottom)
+        timeSeries.attachAxis(timesAxisX)
+
+        timesAxisY = QValueAxis()
+        timesAxisY.setRange(0, np.max(self.timeForExample))
+        timeChart.addAxis(timesAxisY, Qt.AlignLeft)
+        timeSeries.attachAxis(timesAxisY)
+
+        timeChart.legend().setVisible(False)
+
+        timeChartView = QChartView(timeChart)
+        timeChartView.setFixedSize(int(self.winWidth), int(self.winWidth / 3))
+        self.summaryLayout.addWidget(timeChartView)
+        #self.summaryLayout.setAlignment(timeChartView, Qt.AlignVCenter)
+
+
+        errors = QBarSet("Mistakes")
+        errors.setColor(QColor(255, 0, 0, 127))
+
+        errors.append(self.errors[0])
+        errors.append(self.errors[1])
+        errors.append(self.errors[2])
+
+        errorSeries = QBarSeries()
+        errorSeries.append(errors)
+
+        errorChart = QChart()
+        errorChart.addSeries(errorSeries)
+        errorChart.setTitle("Round mistakes chart")
+
+        # Axis X
+        errorsAxisX = QBarCategoryAxis()
+        errorsAxisX.append(categories)
+        errorChart.addAxis(errorsAxisX, Qt.AlignBottom)
+        errorSeries.attachAxis(errorsAxisX)
+
+        # Axis Y
+        errorsAxisY = QValueAxis()
+        errorsAxisY.setRange(0, np.max(self.errors))
+        errorChart.addAxis(errorsAxisY, Qt.AlignLeft)
+        errorSeries.attachAxis(errorsAxisY) 
+
+        errorChartView = QChartView(errorChart)
+        errorChartView.setFixedSize(int(self.winWidth), int(self.winWidth / 3))
+        errorChart.legend().setVisible(False)
+        self.summaryLayout.addWidget(errorChartView)
+        #self.summaryLayout.setAlignment(errorChartView, Qt.AlignVCenter)
+
+        self.summaryButtons = QHBoxLayout()
+
+        self.saveButton = QPushButton("Save to file")
+        self.saveButton.setFont(QFont('Arial', 18))
+        #self.saveButton.clicked.connect()
+
+        self.playAgainButton = QPushButton("Play Again!")
+        self.playAgainButton.setStyleSheet("background-color: #32a852;")
+        self.playAgainButton.setFont(QFont('Arial', 18))
+        self.playAgainButton.clicked.connect(self.playAgain)
+
+        self.exitButton = QPushButton("Exit")
+        self.exitButton.setFont(QFont('Arial', 18))
+        self.exitButton.clicked.connect(self.app.exit)
+
+        self.summaryButtons.addWidget(self.saveButton)
+        self.summaryButtons.addWidget(self.playAgainButton)
+        self.summaryButtons.addWidget(self.exitButton)
+
+        self.summaryButtons.setAlignment(self.saveButton, Qt.AlignLeft)
+        self.summaryButtons.setAlignment(self.playAgainButton, Qt.AlignCenter)
+        self.summaryButtons.setAlignment(self.exitButton, Qt.AlignRight)
+
+        self.summaryLayout.addLayout(self.summaryButtons)
         self.summary.setLayout(self.summaryLayout)
         self.window.addWidget(self.summary)
-
-        # GENEROWANIE WYKRESU BLEDOW I CZASU \/
-        # MOZNA DODAC ZAPISANIE DO PLIKU BO JAKIES MUSI BYC Xd
-
-        # plt.subplot(1,2,1)
-        # x=np.array(["Errors 1", "Errors 2", "Errors 3"])
-        # y=np.array([self.errors[0], self.errors[1], self.errors[2]])
-        # plt.bar(x, y, color='blue')
-
-        # plt.subplot(1,2,2)
-        # x=np.array(["Time 1", "Time 2", "Time 3"])
-        # y=np.array([self.timeForExample[0], self.timeForExample[1], self.timeForExample[2]])
-        # plt.bar(x, y, color='red')
-        # plt.title("Results")
-        # plt.show()
 
 
     def startGame(self, txt):
@@ -216,7 +317,7 @@ class Application():
         self.language = self.language.lower()
         self.difficulty = txt.lower()
 
-        self.roundLabel.setText("Runda" + str(self.currentRound)) 
+        self.roundLabel.setText("Round " + str(self.currentRound) + " of 3")
         self.code = getRandomExample(self.language, self.difficulty, self)
         self.labelCode.setText(self.code)
         self.window.setCurrentWidget(self.game)
@@ -255,7 +356,7 @@ class Application():
                 self.timeForExample[self.currentRound-2] = self.t2-self.t1
 
                 self.code = getRandomExample(self.language, self.difficulty, self)
-                self.roundLabel.setText("Runda " + str(self.currentRound))
+                self.roundLabel.setText("Round " + str(self.currentRound) + " of 3")
                 self.labelCode.setText(self.code)
                 self.started = False
         elif res==-1:
@@ -275,5 +376,16 @@ class Application():
 
         if not self.gameEnded:
             QTimer.singleShot(1000, self.setTimer)
+        
+    def playAgain(self):
+        self.errors = np.array([0, 0, 0])
+        self.examplesLength = np.array([0, 0, 0])
+        self.timeForExample = np.array([0, 0, 0])
+
+        self.gameEnded = False
+        self.secs = 0
+        self.initGameUI()
+        self.initMenuUI()
+        self.window.setCurrentWidget(self.menu)
       
 app = Application()
