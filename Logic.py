@@ -78,4 +78,17 @@ def checkSpelling(window, properText, userInputField):
             userInputField.setPlainText("")
             return 1
 
+def savechart(errors, timeForExample):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    plt.subplot(1,2,1)
+    x=np.array(["Errors 1", "Errors 2", "Errors 3"])
+    y=np.array([errors[0], errors[1], errors[2]])
+    plt.bar(x, y, color='blue')
 
+    plt.subplot(1,2,2)
+    x=np.array(["Time 1", "Time 2", "Time 3"])
+    y=np.array([timeForExample[0], timeForExample[1], timeForExample[2]])
+    plt.bar(x, y, color='red')
+    plt.title("Results")
+    plt.savefig('books_read.png')

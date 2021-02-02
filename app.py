@@ -7,7 +7,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 from pyqtgraph import BarGraphItem, plot
-from Logic import getRandomExample, checkSpelling
+from Logic import getRandomExample, checkSpelling, savechart
 
 
 class Application():
@@ -276,7 +276,7 @@ class Application():
 
         self.saveButton = QPushButton("Save to file")
         self.saveButton.setFont(QFont('Arial', 18))
-        #self.saveButton.clicked.connect()
+        self.saveButton.clicked.connect(lambda: savechart(self.errors, self.timeForExample))
 
         self.playAgainButton = QPushButton("Play Again!")
         self.playAgainButton.setStyleSheet("background-color: #32a852;")
