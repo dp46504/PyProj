@@ -21,7 +21,7 @@ def easy3(x):
 
 <text index="3">
 from matplotlib.pyplot import imread, imsave
-from scipy impot ndimage
+from scipy import ndimage
 </text>
 
 <text index="4">

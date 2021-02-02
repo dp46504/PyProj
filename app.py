@@ -56,13 +56,11 @@ class Application():
         self.game = QWidget()
         self.gameLayout = QVBoxLayout()
 
-        # Labels
         self.gameLabels = QHBoxLayout()
-
-        self.roundLabel = QLabel("Code Racer") # utworzenie widgetu label
+        self.roundLabel = QLabel("Code Racer")
         self.roundLabel.setFixedHeight(int(self.winHeight / 10))
-        self.roundLabel.setStyleSheet("color: #1E5903;") # dodanie styli css
-        self.roundLabel.setFont(QFont('Arial', 20)) # ustawienie czcionki
+        self.roundLabel.setStyleSheet("color: #1E5903;")
+        self.roundLabel.setFont(QFont('Arial', 20))
 
         self.gameTimer = QLabel("00:00")
         self.gameTimer.setFixedHeight(int(self.winHeight / 10))
@@ -74,17 +72,15 @@ class Application():
         self.gameLabels.setAlignment(self.roundLabel, Qt.AlignLeft)
         self.gameLabels.setAlignment(self.gameTimer, Qt.AlignRight)
 
-        # Code
         self.labelCode = QLabel()
         self.labelCode.setFixedHeight(int(self.winHeight / 10 * 4.5))
         self.labelCode.setStyleSheet("background-color: transparent; color: #000; padding: 10px; border-radius: 5px")
         self.labelCode.setFont(QFont('Arial', 18))
         self.labelCode.setAlignment(Qt.AlignLeft)
 
-        # Input
         self.userInput = QPlainTextEdit()
         self.userInput.setFixedHeight(int(self.winHeight / 10 * 4.5))
-        self.userInput.setStyleSheet("background-color: #60A62E; color: #000; border: none; border-radius: 5px;")
+        self.userInput.setStyleSheet("background-color: #60A62E; color: #000; border: 5px solid transparent; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
         self.userInput.textChanged.connect(self.nextRound)
 
@@ -242,8 +238,6 @@ class Application():
         timeChartView = QChartView(timeChart)
         timeChartView.setFixedSize(int(self.winWidth), int(self.winWidth / 3))
         self.summaryLayout.addWidget(timeChartView)
-        #self.summaryLayout.setAlignment(timeChartView, Qt.AlignVCenter)
-
 
         errors = QBarSet("Mistakes")
         errors.setColor(QColor(0, 0, 255, 127))
@@ -259,13 +253,11 @@ class Application():
         errorChart.addSeries(errorSeries)
         errorChart.setTitle("Round mistakes chart")
 
-        # Axis X
         errorsAxisX = QBarCategoryAxis()
         errorsAxisX.append(categories)
         errorChart.addAxis(errorsAxisX, Qt.AlignBottom)
         errorSeries.attachAxis(errorsAxisX)
 
-        # Axis Y
         errorsAxisY = QValueAxis()
         errorsAxisY.setRange(0, np.max(self.errors))
         errorChart.addAxis(errorsAxisY, Qt.AlignLeft)
@@ -275,10 +267,8 @@ class Application():
         errorChartView.setFixedSize(int(self.winWidth), int(self.winWidth / 3))
         errorChart.legend().setVisible(False)
         self.summaryLayout.addWidget(errorChartView)
-        #self.summaryLayout.setAlignment(errorChartView, Qt.AlignVCenter)
 
         self.summaryButtons = QHBoxLayout()
-
         self.saveButton = QPushButton("Save to file")
         self.saveButton.setFont(QFont('Arial', 18))
         self.saveButton.clicked.connect(lambda: savechart(self.errors, self.timeForExample))
@@ -367,7 +357,12 @@ class Application():
             self.errors[self.currentRound-1]+=1
 
     def setTimer(self):
-        
+        """
+        setTimer sets timer to start from 00:00
+
+        :param: None
+        :return: None
+        """
         mins = int(np.floor(self.secs / 60))
         secs = self.secs % 60
         tmp = ""
