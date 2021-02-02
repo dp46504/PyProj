@@ -7,7 +7,7 @@ def getRandomExample(language, difficulty, window):
     """
     import xml.etree.ElementTree as ET
     import random
-    path="texts\\"+language+".xml"
+    path="texts\\languages.xml"
     tree=ET.parse(path)
     root=tree.getroot()
     lang=0

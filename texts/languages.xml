@@ -1,0 +1,188 @@
+    <root>
+    <language name="python">
+
+        <difficulty level="easy">
+
+<text index="0">
+def print(x):
+    print("Hello ", x)
+</text>
+
+<text index="1">
+def f(x):
+    x1,x2=x
+    return x1**2-x2**2+5*x1-x2
+</text>
+
+<text index="2">
+def easy3(x):
+    print("Hello ", x)
+</text>
+
+<text index="3">
+from matplotlib.pyplot import imread, imsave
+from scipy impot ndimage
+</text>
+
+<text index="4">
+def c1(x):
+    x1,x2=x
+    return x1+x2-2
+</text>
+
+
+<text index="5">
+dlista = DList([6, 2, 3, 4, 7, 8])
+for i in dlista:
+    print(i)
+</text>
+
+        </difficulty>
+
+        <difficulty level="medium">
+<text index="0">
+import numpy as np
+A=np.ones((2, 2))
+B=np.zeros((2, 1))
+new=np.hstack((B, A))
+</text>
+
+<text index="1">
+A=[[1, 2, 3], [4, 5, 6]]
+B=[[1, 2, 3], [4, 5, 6]]
+print(mat.dodawanie(A,B))
+</text>
+
+<text index="2">
+gatunki = Irysy['gatunek'].astype('U13')
+setosa = Irysy['petalwidth'][gatunki=='Iris-setosa']
+</text>
+        </difficulty>
+
+        <difficulty level="hard">
+<text index="0">
+class Iterate:
+    def __init__(self, x=0):
+        self.x=x
+    def __call__(self, liczba):
+        wynik=self.x
+        self.x+=1
+        return liczba**wynik
+</text>
+
+<text index="1">
+class iterator:
+    def __init__(self,a=0):
+        self.a=a
+    def __call__(self):
+        self.a+=1
+        return self.a
+</text>
+
+<text index="2">
+class Element:
+    def __init__(self, value, next = None, prev = None):
+        self.__value = value
+        self.next = None
+        self.prev = None
+</text>
+
+<text index="3">
+def __iter__(self):
+    curr = self.__root
+    while not (curr is None):
+        yield curr.value
+        curr = curr.next
+</text>
+</difficulty>
+
+</language>
+<language name="cpp">
+<difficulty level="easy">
+<text index="0">
+Kopiec() {
+    this->maxRozmiar = 10;
+    this->liczbaE = 0;
+    this->tablica = new N * [this->maxRozmiar];
+}
+</text>
+<text index="1">
+Wezel(T dane) {
+	this->wartosc = dane;
+}
+</text>
+<text index="1">
+Wezel(T daneiwartosci) {
+	this->wartosc = daneiwartosci;
+    this->size = 98;
+}
+</text>
+</difficulty>
+
+<difficulty level="medium">
+<text index="0">
+class Wezel {
+public:
+	T wartosc;
+	Wezel(T dane) {
+		this->wartosc = dane;
+	}
+}
+</text>
+
+<text index="1">
+if (this->liczbaE != this->maxRozmiar) {
+	this->liczbaE += 1;
+	this->tablica[this->liczbaE-1] = wezel;
+	this->kopcowanieWGore(this->liczbaE-1, wezel);
+}
+</text>
+
+<text index="3">
+N* usun() {
+	this->tablica[0] = this->tablica[this->liczbaE - 1];
+	this->liczbaE -= 1;
+	this->kopcowanieWDol(0);
+</text>
+</difficulty>
+
+<difficulty level="hard">
+<text index="0">
+void grahamScan() {
+	clock_t t1 = clock();
+	this->setFirstNode();
+	sort(nodes.begin(), nodes.end(), komparator);
+	this->result.push_back(nodes[0]);
+</text>
+
+<text index="2">
+class Node {
+public:
+	float x;
+	float y;
+	int index;
+
+	Node(float x, float y, int index) {
+		this->x = x;
+		this->y = y;
+		this->index = index;
+	}
+	Node() {};
+}
+</text>
+<text index="3">
+class liczba {
+public:
+	string key;
+	int value;
+	liczba(string key, int value) {
+		this->key = key;
+		this->value = value;
+	}
+}
+</text>
+
+
+</difficulty>
+</language>
+</root>
