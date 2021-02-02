@@ -70,7 +70,7 @@ def checkSpelling(window, properText, userInputField):
 
         for i in range(0, len(userInputField.toPlainText())):
             if properText[i]!=text[i]:
-                userInputField.setStyleSheet("background-color: #60A62E; border: 2px solid red; border-radius: 5px;")
+                userInputField.setStyleSheet("background-color: #46801d; border: 5px solid red; border-radius: 5px;")
                 return -1
             else:
                 userInputField.setStyleSheet("background-color: #60A62E; border: none; border-radius: 5px;")

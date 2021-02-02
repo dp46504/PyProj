@@ -140,7 +140,7 @@ if (this->liczbaE != this->maxRozmiar) {
 
 <text index="3">
 N* usun() {
-	this->tablica[0] = this->tablica[this->liczbaE - 1];
+    this->tablica[0] = this->tablica[this->liczbaE - 1];
 	this->liczbaE -= 1;
 	this->kopcowanieWDol(0);
 </text>

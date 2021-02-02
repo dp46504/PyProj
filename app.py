@@ -213,7 +213,7 @@ class Application():
         self.summaryLayout.addLayout(self.summaryLabel)
 
         times = QBarSet("Time")
-        times.setColor(QColor(0, 0, 255, 127))
+        times.setColor(QColor(255, 0, 0, 127))
         times.append(self.timeForExample[0])
         times.append(self.timeForExample[1])
         times.append(self.timeForExample[2])
@@ -246,7 +246,7 @@ class Application():
 
 
         errors = QBarSet("Mistakes")
-        errors.setColor(QColor(255, 0, 0, 127))
+        errors.setColor(QColor(0, 0, 255, 127))
 
         errors.append(self.errors[0])
         errors.append(self.errors[1])
