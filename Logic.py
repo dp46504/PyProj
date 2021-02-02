@@ -14,7 +14,7 @@ def getRandomExample(language, difficulty, window):
     diff=0
     if language =="python":
         lang=0
-    elif language =="cpp":
+    elif language =="c++":
         lang=1
 
     if difficulty == "easy":
@@ -91,4 +91,4 @@ def savechart(errors, timeForExample):
     y=np.array([timeForExample[0], timeForExample[1], timeForExample[2]])
     plt.bar(x, y, color='red')
     plt.title("Results")
-    plt.savefig('books_read.png')
+    plt.savefig('chart.png')
