@@ -30,7 +30,7 @@ class Application():
 
         self.window.setWindowTitle(self.title)
         self.window.setGeometry(self.winXPos, self.winYPos, self.winWidth, self.winHeight)
-        self.window.setStyleSheet("background-color: #0e2a45")
+        self.window.setStyleSheet("background-color: #a5ba45")
         
         self.errors = np.array([0, 0, 0])
         self.examplesLength = np.array([0, 0, 0])
@@ -61,12 +61,12 @@ class Application():
 
         self.roundLabel = QLabel("Code Racer") # utworzenie widgetu label
         self.roundLabel.setFixedHeight(int(self.winHeight / 10))
-        self.roundLabel.setStyleSheet("color: #dbce18;") # dodanie styli css
+        self.roundLabel.setStyleSheet("color: #1E5903;") # dodanie styli css
         self.roundLabel.setFont(QFont('Arial', 20)) # ustawienie czcionki
 
         self.gameTimer = QLabel("00:00")
         self.gameTimer.setFixedHeight(int(self.winHeight / 10))
-        self.gameTimer.setStyleSheet("color: #dbce18;")
+        self.gameTimer.setStyleSheet("color: #1E5903;")
         self.gameTimer.setFont(QFont('Arial', 20))
 
         self.gameLabels.addWidget(self.roundLabel)
@@ -77,14 +77,14 @@ class Application():
         # Code
         self.labelCode = QLabel()
         self.labelCode.setFixedHeight(int(self.winHeight / 10 * 4.5))
-        self.labelCode.setStyleSheet("background-color: #0a102e; color: #ffffff; padding: 10px; border-radius: 5px")
+        self.labelCode.setStyleSheet("background-color: transparent; color: #000; padding: 10px; border-radius: 5px")
         self.labelCode.setFont(QFont('Arial', 18))
         self.labelCode.setAlignment(Qt.AlignLeft)
 
         # Input
         self.userInput = QPlainTextEdit()
         self.userInput.setFixedHeight(int(self.winHeight / 10 * 4.5))
-        self.userInput.setStyleSheet("background-color: #596ed9; border: 1px solid #596ed9; border-radius: 5px;")
+        self.userInput.setStyleSheet("background-color: #60A62E; color: #000; border: none; border-radius: 5px;")
         self.userInput.setFont(QFont('Arial', 18))
         self.userInput.textChanged.connect(self.nextRound)
 
@@ -103,45 +103,50 @@ class Application():
         :return: None
         """
         self.menu = QWidget()
-        self.menu.setStyleSheet("QPushButton { background-color: #596ed9; color: #0e2a45; border: none; border-radius: 5px; width: 200px; height: 50px; } QComboBox { background-color: #596ed9; text-decoration: none; color: black; border: none; border-radius: 5px; } QAbstractItemView { background-color: #596ed9; }")
+        self.menu.setStyleSheet("QPushButton { background-color: #60A62E; color: #000; border: none; border-radius: 5px; width: 200px; height: 50px; } QComboBox { background-color: #60A62E; text-decoration: none; color: #000; border: none; border-radius: 5px; } QAbstractItemView { background-color: #60A62E; color: #000;}")
 
         self.menuLayout = QVBoxLayout()
 
         self.menuLabelLogo = QLabel(self.title)
-        self.menuLabelLogo.setStyleSheet("color: #dbce18")
-        self.menuLabelLogo.setFont(QFont('Arial', 20))
+        self.menuLabelLogo.setStyleSheet("color: #1E5903")
+        self.menuLabelLogo.setFont(QFont('Arial', 24, 81))
         self.menuLabelLogo.setAlignment(Qt.AlignCenter)
         self.menuLayout.addWidget(self.menuLabelLogo)
 
         self.menuText = QLabel("Welcome to Code Racer! This is a great place to practice your code typing skill. Choose from different programming languages and difficulties and start coding!\n\n Choose programming language:")
-        self.menuText.setStyleSheet("color: #ffffff;")
-        self.menuText.setFont(QFont('Arial', 14))
+        self.menuText.setStyleSheet("color: #1E5903;")
+        self.menuText.setFont(QFont('Arial', 16))
         self.menuText.setWordWrap(True)
         self.menuText.setAlignment(Qt.AlignCenter)
         self.menuLayout.addWidget(self.menuText)
-        self.menuLayout.addStretch()
 
         self.select = QComboBox()
-        self.select.addItems(["Python", "C++", "Java"])
+        self.select.addItems(["Python", "C++"])
         self.select.setFixedSize(200, 50)
         self.select.setFont(QFont('Arial', 18))
         self.menuLayout.addWidget(self.select)
 
         self.menuLayout.addStretch()
+        self.difficultyLabel = QLabel("Choose difficulty:")
+        self.difficultyLabel.setStyleSheet("color: #1E5903;")
+        self.difficultyLabel.setFont(QFont('Arial', 16))
+        self.difficultyLabel.setAlignment(Qt.AlignCenter)
+        self.menuLayout.addWidget(self.difficultyLabel)
+
         self.menuButton1 = QPushButton("Easy")
-        self.menuButton1.setStyleSheet("background-color: #32a852")
+        self.menuButton1.setStyleSheet("background-color: #60A62E")
         self.menuButton1.setFont(QFont('Arial', 18))
         self.menuButton1.clicked.connect(lambda: self.startGame(self.menuButton1.text()))
         self.menuLayout.addWidget(self.menuButton1)
 
         self.menuButton2 = QPushButton("Medium")
-        self.menuButton2.setStyleSheet("background-color: #dbce18;")
+        self.menuButton2.setStyleSheet("background-color: #46801d;")
         self.menuButton2.setFont(QFont('Arial', 18))
         self.menuButton2.clicked.connect(lambda: self.startGame(self.menuButton2.text()))
         self.menuLayout.addWidget(self.menuButton2)
 
         self.menuButton3 = QPushButton("Hard")
-        self.menuButton3.setStyleSheet("background-color: #ad3238")
+        self.menuButton3.setStyleSheet("background-color: #154001")
         self.menuButton3.setFont(QFont('Arial', 18))
         self.menuButton3.clicked.connect(lambda: self.startGame(self.menuButton3.text()))
         self.menuLayout.addWidget(self.menuButton3)
@@ -172,7 +177,7 @@ class Application():
         """
 
         self.summary = QWidget()
-        self.summary.setStyleSheet("QPushButton { background-color: #596ed9; color: #0e2a45; border: none; border-radius: 5px; width: 200px; height: 50px; }")
+        self.summary.setStyleSheet("QPushButton { background-color: #60A62E; color: #000; border: none; border-radius: 5px; width: 200px; height: 50px; }")
         self.summaryLayout = QVBoxLayout()
 
         self.summaryLabel = QHBoxLayout()
@@ -189,8 +194,8 @@ class Application():
 
         self.totalTimeLabel = QLabel(totalTime)
         self.totalTimeLabel.setMaximumHeight(int(self.winHeight / 10))
-        self.totalTimeLabel.setStyleSheet("color: #dbce18;")
-        self.totalTimeLabel.setFont(QFont('Arial', 20))
+        self.totalTimeLabel.setStyleSheet("color: #1E5903;")
+        self.totalTimeLabel.setFont(QFont('Arial', 20, 75))
         self.totalTimeLabel.setAlignment(Qt.AlignCenter)
 
         self.summaryLabel.addWidget(self.totalTimeLabel)
@@ -199,8 +204,8 @@ class Application():
         totalMistakes = "Total mistakes: " + str(np.sum(self.errors))
         self.totalMistakesLabel = QLabel(totalMistakes)
         self.totalMistakesLabel.setMaximumHeight(int(self.winHeight / 10))
-        self.totalMistakesLabel.setStyleSheet("color: #dbce18;")
-        self.totalMistakesLabel.setFont(QFont('Arial', 20))
+        self.totalMistakesLabel.setStyleSheet("color: #1E5903;")
+        self.totalMistakesLabel.setFont(QFont('Arial', 20, 75))
         self.totalMistakesLabel.setAlignment(Qt.AlignCenter)
 
         self.summaryLabel.addWidget(self.totalMistakesLabel)
@@ -279,7 +284,6 @@ class Application():
         self.saveButton.clicked.connect(lambda: savechart(self.errors, self.timeForExample))
 
         self.playAgainButton = QPushButton("Play Again!")
-        self.playAgainButton.setStyleSheet("background-color: #32a852;")
         self.playAgainButton.setFont(QFont('Arial', 18))
         self.playAgainButton.clicked.connect(self.playAgain)
 
