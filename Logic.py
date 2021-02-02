@@ -79,6 +79,12 @@ def checkSpelling(window, properText, userInputField):
             return 1
 
 def savechart(errors, timeForExample):
+    """
+        creating and saving chart to file
+
+        :param: error array and timeforexample array
+        :return: None
+    """
     import numpy as np
     import matplotlib.pyplot as plt
     plt.subplot(1,2,1)
